@@ -134,8 +134,36 @@ app.delete('/profesores/:id', (req, res) => {
     res.status(200).json({ mensaje: "Profesor eliminado" });
 });
 
-app.use((req, res, next) => {
-    res.status(405).json({ error: "Método no permitido" });
+// 405
+
+app.all('/alumnos', (req, res) => {
+    if (!['GET', 'POST'].includes(req.method)) {
+        return res.status(405).json({ error: "Método no permitido" });
+    }
+});
+
+app.all('/alumnos/:id', (req, res) => {
+    if (!['GET', 'PUT', 'DELETE'].includes(req.method)) {
+        return res.status(405).json({ error: "Método no permitido" });
+    }
+});
+
+app.all('/profesores', (req, res) => {
+    if (!['GET', 'POST'].includes(req.method)) {
+        return res.status(405).json({ error: "Método no permitido" });
+    }
+});
+
+app.all('/profesores/:id', (req, res) => {
+    if (!['GET', 'PUT', 'DELETE'].includes(req.method)) {
+        return res.status(405).json({ error: "Método no permitido" });
+    }
+});
+
+// 404
+
+app.use((req, res) => {
+    res.status(404).json({ error: "Ruta no encontrada" });
 });
 
 // Servidor
